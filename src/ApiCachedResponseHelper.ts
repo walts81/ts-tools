@@ -4,7 +4,7 @@ interface ValuesDictionary {
   [key: string]: TimeoutCachedStorageItem;
 }
 
-export class CachedApiResponseHelper {
+export class ApiCachedResponseHelper {
   private values: ValuesDictionary = {};
 
   constructor(
@@ -42,9 +42,10 @@ export class CachedApiResponseHelper {
   private async getFromApi(url: string) {
     try {
       const response = await this.http.get(url);
-      return JSON.stringify(response);
-    } catch (err) {
-      return '';
-    }
+      if (response.status === 200) {
+        return JSON.stringify(response);
+      }
+    } catch (err) {}
+    return '';
   }
 }
