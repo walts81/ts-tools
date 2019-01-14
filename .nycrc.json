@@ -1,0 +1,26 @@
+{
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "extension": [
+    ".ts",
+    ".tsx"
+  ],
+  "exclude": [
+    "src/linq-helpers/index.ts",
+    "**/*.spec.ts",
+    "**/*.js"
+  ],
+  "require": [
+    "ts-node/register"
+  ],
+  "reporter": [
+    "text",
+    "html"
+  ],
+  "sourceMap": true,
+  "instrument": true,
+  "cache": false,
+  "all": true
+}

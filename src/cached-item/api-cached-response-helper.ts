@@ -1,5 +1,6 @@
-import { TimeoutCachedStorageItem } from './TimeoutCachedStorageItem';
-import { TimeoutType } from './TimeoutCachedItem';
+import { TimeoutCachedStorageItem } from './timeout-cached-storage-item';
+import { TimeoutType } from './timeout-cached-item';
+
 interface ValuesDictionary {
   [key: string]: TimeoutCachedStorageItem;
 }

@@ -1,8 +1,8 @@
 import { assert, expect } from 'chai';
 import 'mocha';
 import * as sinon from 'sinon';
-import { TimeoutCachedStorageItem } from './TimeoutCachedStorageItem';
-import { TimeoutType, MILLISECONDS_IN_MINUTE } from './TimeoutCachedItem';
+import { TimeoutCachedStorageItem } from './timeout-cached-storage-item';
+import { TimeoutType, MILLISECONDS_IN_MINUTE } from './timeout-cached-item';
 
 describe('TimeoutCachedStorageItem', () => {
   it('should get value from storage on construction', () => {
@@ -40,7 +40,7 @@ describe('TimeoutCachedStorageItem', () => {
       fake
     );
     const value = await service.getValue();
-    expect(value).to.eq('from-storage');
+    expect(value).to.equal('from-storage');
     assert(storageFake.calledOnce, 'value not retrieved exactly once from storage');
     assert(fake.notCalled, 'delegate was called but should not have been');
   });
@@ -78,7 +78,7 @@ describe('TimeoutCachedStorageItem', () => {
     );
     assert(storageFake.calledOnce, 'value not retrieved from storage on construction');
     const value = await service.getValue();
-    expect(value).to.eq('from-delegate');
+    expect(value).to.equal('from-delegate');
     assert(fake.calledOnceWith('test'), 'delegate not called exactly once with correct key');
   });
 
@@ -101,7 +101,7 @@ describe('TimeoutCachedStorageItem', () => {
       sinon.fake.returns(Promise.resolve('from-delegate'))
     );
     const value = await service.getValue();
-    expect(value).to.eq('from-delegate');
+    expect(value).to.equal('from-delegate');
   });
 
   it('should set value in storage after retrieved from delegate', async () => {

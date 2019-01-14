@@ -1,4 +1,4 @@
-import { TimeoutCachedItem, TimeoutType } from './TimeoutCachedItem';
+import { TimeoutCachedItem, TimeoutType } from './timeout-cached-item';
 
 export class TimeoutCachedStorageItem extends TimeoutCachedItem<string, string> {
   constructor(

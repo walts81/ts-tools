@@ -1,8 +1,8 @@
 import { assert, expect } from 'chai';
 import 'mocha';
 import * as sinon from 'sinon';
-import { ApiCachedResponseHelper } from './ApiCachedResponseHelper';
-import { TimeoutType } from './TimeoutCachedItem';
+import { ApiCachedResponseHelper } from './api-cached-response-helper';
+import { TimeoutType } from './timeout-cached-item';
 
 describe('ApiCachedResponseHelper', () => {
   it('should hit API when not cached', async () => {
@@ -19,7 +19,7 @@ describe('ApiCachedResponseHelper', () => {
       http
     );
     const value = await service.getFromUrl('url');
-    expect(value.data).to.eq('from-api');
+    expect(value.data).to.equal('from-api');
     assert(httpFake.calledOnce, 'API was not called exactly once');
   });
 
@@ -37,12 +37,12 @@ describe('ApiCachedResponseHelper', () => {
       http
     );
     const val1 = await service.getFromUrl('url');
-    expect(val1.data).to.eq('from-api');
+    expect(val1.data).to.equal('from-api');
     assert(httpFake.calledOnce, 'API was not called exactly once');
 
     const val2 = await service.getFromUrl('url');
-    expect(val2.data).to.eq('from-api');
-    expect(httpFake.callCount).to.eq(1);
+    expect(val2.data).to.equal('from-api');
+    expect(httpFake.callCount).to.equal(1);
   });
 
   it('should return null on API error', async () => {
