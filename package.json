@@ -1,13 +1,13 @@
 {
   "name": "js-tools",
   "version": "1.0.0",
-  "description": "Javscript Tool Library",
+  "description": "Typescript/Javascript Tool Library",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "gulp",
-    "test:cov": "gulp clean-coverage && TS_NODE_FILES=true nyc mocha",
     "test": "TS_NODE_FILES=true mocha",
+    "test:cov": "gulp clean-coverage && TS_NODE_FILES=true nyc mocha",
     "lint": "tslint src/**/*.ts",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm lint",
@@ -17,22 +17,20 @@
   "files": [
     "lib/**/*"
   ],
-  "keywords": ["Typescript", "Javascript", "Helpers"],
+  "keywords": [
+    "Typescript",
+    "Javascript",
+    "Helpers"
+  ],
   "author": "Josh Walters",
   "license": "MIT",
   "devDependencies": {
-    "@babel/core": "^7.1.0",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-typescript": "^7.1.0",
     "@types/chai": "^4.1.5",
     "@types/mocha": "^5.2.5",
     "@types/sinon": "^7.0.3",
     "chai": "^4.1.2",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-babel": "^8.0.0-beta.2",
     "gulp-typescript": "^5.0.0",
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
