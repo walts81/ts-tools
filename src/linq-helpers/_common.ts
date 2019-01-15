@@ -1,5 +1,6 @@
+/* tslint:disable:max-classes-per-file */
 export class LinqException {
-  constructor(public readonly name: string, public readonly message: string) { }
+  constructor(public readonly name: string, public readonly message: string) {}
 }
 
 export class NoMatchException extends LinqException {
@@ -21,4 +22,4 @@ export class MultipleMatchException extends LinqException {
 }
 
 export type Comparer = (a: any, b: any) => number;
-export const DefaultComparer: Comparer = (a: any, b: any) => a > b ? 1 : a === b ? 0 : -1;
+export const DefaultComparer: Comparer = (a: any, b: any) => (a > b ? 1 : a === b ? 0 : -1);

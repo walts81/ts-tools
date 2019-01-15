@@ -1,7 +1,7 @@
 const ENTER_KEY = 13;
 const ESC_KEY = 27;
 
-export class KeyCodeHelper {
+class KeyCodeHelper {
   static isEnterKey($event: any): boolean {
     return KeyCodeHelper.isKeyCode($event, ENTER_KEY);
   }
@@ -26,3 +26,5 @@ export class KeyCodeHelper {
     return keyCode;
   }
 }
+
+export { ENTER_KEY, ESC_KEY, KeyCodeHelper };

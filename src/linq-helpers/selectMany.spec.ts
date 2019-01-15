@@ -3,7 +3,7 @@ import 'mocha';
 import './selectMany';
 
 describe('linq.SelectMany', () => {
-  const empty: { id: number[] }[] = [];
+  const empty: Array<{ id: number[] }> = [];
   const collection = [{ id: [1] }, { id: [2] }, { id: [3] }, { id: [4] }, { id: [5] }];
 
   it('should return empty array when array is empty', () => {

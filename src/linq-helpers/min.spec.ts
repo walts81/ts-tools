@@ -26,7 +26,9 @@ describe('linq.Min', () => {
     const maxComparer = (a: number, b: number) => {
       const a2 = a * -1;
       const b2 = b * -1;
-      if (a2 === b2) return 0;
+      if (a2 === b2) {
+        return 0;
+      }
       return a2 > b2 ? 1 : -1;
     };
     const result = collection2.min(x => x.id, maxComparer);
@@ -37,7 +39,9 @@ describe('linq.Min', () => {
     const maxComparer = (a: { id: number }, b: { id: number }) => {
       const a2 = a.id * -1;
       const b2 = b.id * -1;
-      if (a2 === b2) return 0;
+      if (a2 === b2) {
+        return 0;
+      }
       return a2 > b2 ? 1 : -1;
     };
     const result = collection2.min(undefined, maxComparer);

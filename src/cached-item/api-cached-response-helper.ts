@@ -18,7 +18,7 @@ export class ApiCachedResponseHelper {
     protected http: any
   ) {}
 
-  async getFromUrl(url: string) {
+  public async getFromUrl(url: string) {
     let cached = this.values[url];
     if (!cached) {
       cached = new TimeoutCachedStorageItem(
@@ -46,7 +46,9 @@ export class ApiCachedResponseHelper {
       if (response.status === 200) {
         return JSON.stringify(response);
       }
-    } catch (err) {}
+    } catch (err) {
+      return '';
+    }
     return '';
   }
 }

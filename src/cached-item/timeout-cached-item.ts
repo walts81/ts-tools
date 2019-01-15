@@ -27,7 +27,7 @@ class TimeoutCachedItem<TKey, TValue> {
     this.lastRenewed = this.getDateOffset(now, this.timeout, this.timeoutType, false);
   }
 
-  async getValue(): Promise<TValue> {
+  public async getValue(): Promise<TValue> {
     if (this.shouldRenew(this.lastRenewed, this.timeout, this.timeoutType)) {
       this.value = await this.getValueImplementation();
       this.lastRenewed = new Date();
