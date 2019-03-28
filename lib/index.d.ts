@@ -1,7 +1,6 @@
 import './array-helpers';
 import './number-helpers';
 import './string-helpers';
-
 export * from './cached-item';
 export * from './clone-value';
 export * from './cloned-value';
