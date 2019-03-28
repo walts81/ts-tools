@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './last';
 
-describe('linq.Last', () => {
+describe('linq.last', () => {
   const empty: any[] = [];
   const collection = [1, 2, 3, 4, 5];
   const noMatchError = 'No match found';

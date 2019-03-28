@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './where';
 
-describe('linq.Where', () => {
+describe('linq.where', () => {
   const empty: any[] = [];
   const collection = [1, 2, 3, 4, 5];
 

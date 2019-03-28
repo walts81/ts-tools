@@ -17,16 +17,26 @@ const formatCurrency = (value: number | string, cents = false, locale = 'en-US',
   return val.toLocaleString(locale, options);
 };
 
-const isValidDate = (date: any): boolean => {
-  const type = Object.prototype.toString.call(date);
-  if (type === '[object Date]') {
-    return !isNaN(date.getTime());
-  } else if (type === '[object String]') {
-    date = new Date(date);
-    return !isNaN(date.getTime());
-  } else {
-    return false;
+const isDate = (value: any): boolean => {
+  if (!!value) {
+    return toString.call(value) === '[object Date]';
   }
+
+  return false;
+};
+
+const isValidDate = (date: any): boolean => {
+  const invalidDt = 'Invalid Date';
+
+  if (isDate(date)) {
+    return date != invalidDt;
+  }
+
+  if (!!date && typeof date === 'string') {
+    return (new Date(date) as any) != invalidDt;
+  }
+
+  return false;
 };
 
 const formatDate = (date: string | Date, format = 'MM/DD/YYYY') => {
@@ -59,4 +69,4 @@ const formatPercent = (
   return formatted;
 };
 
-export { PercentOperation, formatCurrency, formatPercent, formatDate };
+export { PercentOperation, formatCurrency, formatPercent, formatDate, isDate, isValidDate };

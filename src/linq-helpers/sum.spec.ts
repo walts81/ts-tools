@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './sum';
 
-describe('linq.Sum', () => {
+describe('linq.sum', () => {
   const empty: any[] = [];
   const collection = [1, 2, 3, 4, 5];
   const collection2 = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];

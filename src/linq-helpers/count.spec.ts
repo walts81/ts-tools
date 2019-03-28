@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './count';
 
-describe('linq.Count', () => {
+describe('linq.count', () => {
   const empty: any[] = [];
   const collection = [1, 2, 3, 4, 5];
 

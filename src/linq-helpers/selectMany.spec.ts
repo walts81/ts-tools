@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './selectMany';
 
-describe('linq.SelectMany', () => {
+describe('linq.selectMany', () => {
   const empty: Array<{ id: number[] }> = [];
   const collection = [{ id: [1] }, { id: [2] }, { id: [3] }, { id: [4] }, { id: [5] }];
 

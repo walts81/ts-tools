@@ -3,7 +3,7 @@ import 'mocha';
 import './string-helpers';
 
 describe('StringHelpers', () => {
-  describe('IsNullOrEmpty', () => {
+  describe('isNullOrEmpty', () => {
     it('should return true when blank string', () => {
       const result = String.isNullOrEmpty('');
       expect(result).to.equal(true);
@@ -36,7 +36,7 @@ describe('StringHelpers', () => {
     });
   });
 
-  describe('IsNullOrWhitespace', () => {
+  describe('isNullOrWhitespace', () => {
     it('should return true when blank string', () => {
       const result = String.isNullOrWhitespace('');
       expect(result).to.equal(true);
