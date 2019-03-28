@@ -10,7 +10,7 @@
     "test:cov": "gulp clean-coverage && TS_NODE_FILES=true nyc mocha",
     "lint": "tslint src/**/*.ts",
     "prepare": "npm run build",
-    "prepublishOnly": "npm test && npm lint",
+    "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "postversion": "git push && git push --tags"
   },
