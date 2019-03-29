@@ -9,10 +9,12 @@ import {
 import './all';
 import './any';
 import './count';
+import './distinct';
 import './first';
 import './firstOrDefault';
 import './getPage';
 import './getPageCount';
+import './group-by';
 import './last';
 import './lastOrDefault';
 import './max';

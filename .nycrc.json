@@ -8,7 +8,8 @@
     ".tsx"
   ],
   "exclude": [
-    "src/linq-helpers/index.ts",
+    "**/index.ts",
+    "**/*.d.ts",
     "**/*.spec.ts",
     "**/*.js"
   ],

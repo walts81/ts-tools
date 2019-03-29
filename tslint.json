@@ -12,6 +12,8 @@
     "no-namespace": false,
     "only-arrow-functions": false,
     "ordered-imports": false,
+    "array-type": false,
+    "no-console": false,
     "trailing-comma": [
       true,
       {

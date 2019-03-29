@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './select';
 
-describe('linq.Select', () => {
+describe('linq.select', () => {
   const collection = [{ id: 1 }, { id: 2 }, { id: 3 }, { id: 4 }, { id: 5 }];
 
   it('should return array of prop values based on expression', () => {

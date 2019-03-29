@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import 'mocha';
 import './singleOrDefault';
 
-describe('linq.SingleOrDefault', () => {
+describe('linq.singleOrDefault', () => {
   const empty: any[] = [];
   const single = [1];
   const collection = [1, 2, 3, 4, 5];
