@@ -19,8 +19,8 @@ class TestableLogger extends AbstractLogger {
     super();
   }
 
-  protected doLog(message: any, ...args: any[]): void {
-    this.loggerSpy(message, ...args);
+  protected doLog(level: LogLevel, message: any, ...args: any[]): void {
+    this.loggerSpy(level, message, ...args);
   }
 }
 
@@ -30,6 +30,15 @@ describe('logger', () => {
     const logger = new TestableLogger(spy);
     logger.error('test');
     expect(spy.calledWith('test')).to.be.false;
+  });
+
+  it('should log debug by default when calling log', () => {
+    const spy = sinon.spy();
+    const logger1 = new Logger(LogLevel.Debug, spy);
+    const logger2 = new Logger(LogLevel.Info, spy);
+    logger1.log('test', 'arg');
+    logger2.log('test', 'arg');
+    expect(spy.calledOnceWith(LogLevel.Debug, 'test', 'arg')).to.be.true;
   });
 
   it('should log debug when debug', () => {
