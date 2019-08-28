@@ -9,11 +9,12 @@ export class TimeoutCachedStorageItem extends TimeoutCachedItem<string, string> 
     timeoutType: TimeoutType,
     protected storageTimeout: number,
     protected storageTimeoutType: TimeoutType,
-    getValueDelegate: (key: string) => Promise<string>
+    getValueDelegate: (key: string) => Promise<string>,
+    canCacheValueDelegate: (value: string) => boolean = () => true
   ) {
-    super(key, timeout, timeoutType, getValueDelegate);
+    super(key, timeout, timeoutType, getValueDelegate, canCacheValueDelegate);
     const value = this.getValueFromStorage();
-    if (value) {
+    if (!!value && this.canCacheValueDelegate(value)) {
       this.lastRenewed = new Date();
       this.value = value;
     }
@@ -21,7 +22,9 @@ export class TimeoutCachedStorageItem extends TimeoutCachedItem<string, string> 
 
   protected async getValueImplementation(): Promise<string> {
     const value = await super.getValueImplementation();
-    this.setValueInStorage(value);
+    if (this.canCacheValueDelegate(value)) {
+      this.setValueInStorage(value);
+    }
     return value;
   }
 

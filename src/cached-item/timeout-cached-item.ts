@@ -21,7 +21,8 @@ class TimeoutCachedItem<TKey, TValue> {
     public key: TKey,
     private timeout: number,
     private timeoutType: TimeoutType,
-    private getValueDelegate: (key: TKey) => Promise<TValue>
+    protected getValueDelegate: (key: TKey) => Promise<TValue>,
+    protected canCacheValueDelegate: (value: TValue) => boolean = () => true
   ) {
     const now = new Date();
     this.lastRenewed = this.getDateOffset(now, this.timeout, this.timeoutType, false);
@@ -29,8 +30,12 @@ class TimeoutCachedItem<TKey, TValue> {
 
   public async getValue(): Promise<TValue> {
     if (this.shouldRenew(this.lastRenewed, this.timeout, this.timeoutType)) {
-      this.value = await this.getValueImplementation();
-      this.lastRenewed = new Date();
+      const value = await this.getValueImplementation();
+      if (this.canCacheValueDelegate(value)) {
+        this.value = value;
+        this.lastRenewed = new Date();
+      }
+      return value;
     }
     return this.value;
   }

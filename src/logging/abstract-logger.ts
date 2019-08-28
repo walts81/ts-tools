@@ -4,6 +4,10 @@ import { LogLevel } from './log-level';
 export abstract class AbstractLogger implements Logger {
   constructor(protected level = LogLevel.None) {}
 
+  public log(message: any, ...args: any[]): void {
+    this.logAtLevel(LogLevel.Debug, message, ...args);
+  }
+
   public debug(message: any, ...args: any[]): void {
     this.logAtLevel(LogLevel.Debug, message, ...args);
   }
@@ -24,7 +28,7 @@ export abstract class AbstractLogger implements Logger {
     return this.level <= level;
   }
 
-  protected logAtLevel(level: LogLevel, message: any, ...args: any[]): void {
+  public logAtLevel(level: LogLevel, message: any, ...args: any[]): void {
     if (this.canLog(level)) {
       this.doLog(level, message, ...args);
     }

@@ -15,7 +15,8 @@ export class ApiCachedResponseHelper {
     private timeoutType: TimeoutType,
     private storageTimeout: number,
     private storageTimeoutType: TimeoutType,
-    protected http: any
+    protected http: any,
+    private canCacheValueDelegate: (value: string) => boolean = () => true
   ) {}
 
   public async getFromUrl(url: string) {
@@ -29,7 +30,8 @@ export class ApiCachedResponseHelper {
         this.timeoutType,
         this.storageTimeout,
         this.storageTimeoutType,
-        x => this.getFromApi(x)
+        x => this.getFromApi(x),
+        this.canCacheValueDelegate
       );
       this.values[url] = cached;
     }
