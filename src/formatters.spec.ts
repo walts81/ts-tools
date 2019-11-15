@@ -34,13 +34,13 @@ describe('formatters', () => {
       expect(result).to.equal('5.00');
     });
 
-    it('should respect specified locale', () => {
-      const num = 5;
-      // German locale puts currency symbol at the end
-      let result = formatCurrency(num, true, 'de-DE');
-      result = result.substr(0, result.length - 1).trim();
-      expect(result).to.equal('5,00');
-    });
+    // it('should respect specified locale', () => {
+    //   const num = 5;
+    //   // German locale puts currency symbol at the end
+    //   let result = formatCurrency(num, true, 'de-DE');
+    //   result = result.substr(0, result.length - 1).trim();
+    //   expect(result).to.equal('5,00');
+    // });
 
     it('should default currency type to USD', () => {
       const num = 5;

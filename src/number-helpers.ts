@@ -3,8 +3,8 @@ interface NumberConstructor {
 }
 
 Number.round = (val: number, decimals: number = 0): number => {
-  let valToUse: any = val;
-  let placesToUse: any = decimals;
-  let numToRound = Number(valToUse + 'e+' + placesToUse);
+  const valToUse: any = val;
+  const placesToUse: any = decimals;
+  const numToRound = Number(valToUse + 'e+' + placesToUse);
   return +(Math.round(numToRound) + 'e-' + placesToUse);
 };

@@ -1,5 +1,5 @@
 export class NaturalSortHelper {
-  public getNaturalValueFn = (field1: any, field2?: any): ((item: any) => string) => {
+  getNaturalValueFn = (field1: any, field2?: any): ((item: any) => string) => {
     return (item: any) => {
       let val = item[field1];
       if (field2) {
@@ -7,19 +7,19 @@ export class NaturalSortHelper {
       }
       return this.getNaturalValue(val);
     };
-  };
+  }
 
-  public naturalSort = (a: any, b: any, desc?: boolean): number => {
+  naturalSort = (a: any, b: any, desc?: boolean): number => {
     a = this.getNaturalValue(a);
     b = this.getNaturalValue(b);
-    if (a < b) return desc ? 1 : -1;
+    if (a < b) { return desc ? 1 : -1; }
 
-    if (a > b) return desc ? -1 : 1;
+    if (a > b) { return desc ? -1 : 1; }
 
     return 0;
-  };
+  }
 
-  public getNaturalValue = (value: any): string => {
+  getNaturalValue = (value: any): string => {
     return this.safeString(value).replace(/(\d+)((\.\d+)+)?/g, ($0: any, integer: any, decimal: any, $3: any) => {
       if (decimal !== $3) {
         return $0.replace(/(\d+)/g, ($d: any) => {
@@ -39,7 +39,7 @@ export class NaturalSortHelper {
         return this.padding(integer) + integer + decimal + this.padding(decimal);
       }
     });
-  };
+  }
 
   private padding(value: any): string {
     return '00000000000000000000'.slice(0, value.length);

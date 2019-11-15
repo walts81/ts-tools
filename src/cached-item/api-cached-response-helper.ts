@@ -19,7 +19,7 @@ export class ApiCachedResponseHelper {
     private canCacheValueDelegate: (value: string) => boolean = () => true
   ) {}
 
-  public async getFromUrl(url: string) {
+  async getFromUrl(url: string) {
     let cached = this.values[url];
     if (!cached) {
       cached = new TimeoutCachedStorageItem(

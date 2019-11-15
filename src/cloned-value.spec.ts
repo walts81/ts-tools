@@ -68,31 +68,36 @@ describe('clonedValue', () => {
       expect(result).to.be.false;
     });
 
-    it('should return false after update', () => {
+    it('should return false after sync', () => {
       const originalValue = { val: 'test' };
       const clone = new ClonedValue('clone test', () => originalValue);
       clone.value.val = 'modified';
-      clone.update({ val: 'modified' });
+      clone.sync();
       const result = clone.hasChanged();
       expect(result).to.be.false;
     });
   });
 
-  describe('update', () => {
+  describe('sync', () => {
     it('should update original value', () => {
       const originalValue = { val: 'test' };
       const clone = new ClonedValue('clone test', () => originalValue);
-      clone.update({ val: 'updated' });
-      const result = clone.originalValue;
+      clone.value.val = 'updated';
+      let result = clone.originalValue;
+      expect(result.val).to.equal('test');
+      clone.sync();
+      result = clone.originalValue;
       expect(result.val).to.equal('updated');
     });
+  });
 
+  describe('value update', () => {
     it('should execute callback on update of non-null value', () => {
       const spy = sinon.spy();
       const originalValue = { val: 'test' };
       const clone = new ClonedValue('clone test', () => originalValue, {}, spy);
       const update = { val: 'updated' };
-      clone.update(update);
+      clone.value = update;
       expect(spy.calledWith(update)).to.be.true;
     });
 
@@ -100,7 +105,7 @@ describe('clonedValue', () => {
       const spy = sinon.spy();
       const originalValue: any = { val: 'test' };
       const clone = new ClonedValue('clone test', () => originalValue, {}, spy);
-      clone.update(null);
+      clone.value = null;
       expect(spy.notCalled).to.be.true;
     });
   });

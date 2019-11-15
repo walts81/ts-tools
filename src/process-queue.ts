@@ -23,8 +23,8 @@ export abstract class ProcessQueue<T, TResult> {
   protected deferredDict: DeferredDictionary<TResult> = {};
 
   isProcessing(payload: T): boolean {
-    let key = this.getKey(payload);
-    let proc = this.deferredDict[key];
+    const key = this.getKey(payload);
+    const proc = this.deferredDict[key];
     if (proc) {
       return proc.isProcessing;
     }
@@ -32,8 +32,8 @@ export abstract class ProcessQueue<T, TResult> {
   }
 
   queue(payload: T): Promise<TResult> {
-    let deferred = new DeferredPromise<TResult>();
-    let key = this.getKey(payload);
+    const deferred = new DeferredPromise<TResult>();
+    const key = this.getKey(payload);
     let proc = this.deferredDict[key];
     if (!proc) {
       proc = { id: key, deferredList: [], isProcessing: false };
@@ -45,13 +45,13 @@ export abstract class ProcessQueue<T, TResult> {
       proc.isProcessing = true;
       this.performAction(payload)
         .then(r => {
-          const list = proc.deferredList.clone();
+          const list = proc.deferredList.clone(false);
           proc.isProcessing = false;
           proc.deferredList = [];
           list.forEach(d => d.resolve(r));
         })
         .catch(e => {
-          const list = proc.deferredList.clone();
+          const list = proc.deferredList.clone(false);
           proc.isProcessing = false;
           proc.deferredList = [];
           list.forEach(d => d.reject(e));

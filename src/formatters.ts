@@ -29,11 +29,12 @@ const isValidDate = (date: any): boolean => {
   const invalidDt = 'Invalid Date';
 
   if (isDate(date)) {
-    return date != invalidDt;
+    return date !== invalidDt;
   }
 
   if (!!date && typeof date === 'string') {
-    return (new Date(date) as any) != invalidDt;
+    const dt = (new Date(date) as any);
+    return !!dt && dt.toString() !== invalidDt;
   }
 
   return false;

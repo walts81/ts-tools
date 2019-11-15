@@ -17,6 +17,9 @@ export class ClonedValue<T> {
     }
     return (this._clonedValue || this.defaultValue) as T;
   }
+  set value(val: T) {
+    this.updateValue(val, true);
+  }
 
   get originalValue(): T {
     if (!this._orig) {
@@ -38,15 +41,15 @@ export class ClonedValue<T> {
     this.updateValue(this.originalValue, false);
   }
 
-  update(val: T) {
-    this.updateValue(val, true);
-  }
-
   hasChanged() {
-    const a = cloneValue(this._orig);
-    const b = cloneValue(this._clonedValue);
+    const a = cloneValue(this.value);
+    const b = cloneValue(this.originalValue);
     const areSame = areObjectsEquivalent(a, b);
     return !areSame;
+  }
+
+  sync(): void {
+    this._orig = cloneValue(this._clonedValue);
   }
 
   logDiff(level: LogLevel = LogLevel.Info) {
@@ -69,9 +72,8 @@ export class ClonedValue<T> {
   }
 
   private updateValue(val: T, isExternalUpdate: boolean) {
-    this._orig = val;
     const clone = cloneValue(val);
-    if (!!clone) {
+    if (!!clone && isExternalUpdate) {
       this.onCloned(clone);
     }
     this._clonedValue = clone;

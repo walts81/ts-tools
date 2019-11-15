@@ -11,7 +11,7 @@ class KeyCodeHelper {
   }
 
   static isKeyCode($event: any, code: number): boolean {
-    let keyCode = KeyCodeHelper.getKeyCode($event);
+    const keyCode = KeyCodeHelper.getKeyCode($event);
     return keyCode === code;
   }
 
