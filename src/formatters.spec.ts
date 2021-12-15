@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import 'mocha';
-import { formatCurrency, formatDate, formatPercent, PercentOperation } from './formatters';
+import { formatCurrency, formatDate, formatPercent, PercentOperation, isDate } from './formatters';
 
 describe('formatters', () => {
   describe('formatCurrency', () => {
@@ -12,25 +12,19 @@ describe('formatters', () => {
 
     it('should default to no cents', () => {
       const num = 5;
-      const result = formatCurrency(num)
-        .substr(1)
-        .trim();
+      const result = formatCurrency(num).substr(1).trim();
       expect(result).to.equal('5');
     });
 
     it('should include cents when specified', () => {
       const num = 5;
-      const result = formatCurrency(num, true)
-        .substr(1)
-        .trim();
+      const result = formatCurrency(num, true).substr(1).trim();
       expect(result).to.equal('5.00');
     });
 
     it('should default to en-US', () => {
       const num = 5;
-      const result = formatCurrency(num, true)
-        .substr(1)
-        .trim();
+      const result = formatCurrency(num, true).substr(1).trim();
       expect(result).to.equal('5.00');
     });
 
@@ -64,6 +58,18 @@ describe('formatters', () => {
       const num = 5;
       const result = formatCurrency(num, false, 'en-US', 'EUR').substr(0, 1);
       expect(result).to.equal('€');
+    });
+  });
+
+  describe('isDate', () => {
+    it('should return false when not valid date', () => {
+      const dt = 'not_a_date';
+      const result = isDate(dt);
+      expect(result).to.be.false;
+    });
+    it('should return false when null', () => {
+      const result = isDate(null);
+      expect(result).to.be.false;
     });
   });
 

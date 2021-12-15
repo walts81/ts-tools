@@ -45,6 +45,12 @@ describe('cloneValue', () => {
     expect(b).to.be.null;
   });
 
+  it('should return undefined when undefined', () => {
+    const a: any = undefined;
+    const b = cloneValue(a);
+    expect(b).to.be.undefined;
+  });
+
   it('should return zero when zero', () => {
     const a = 0;
     const b = cloneValue(a);

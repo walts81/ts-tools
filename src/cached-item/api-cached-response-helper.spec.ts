@@ -56,7 +56,8 @@ describe('ApiCachedResponseHelper', () => {
       TimeoutType.InMinutes,
       2,
       TimeoutType.InMinutes,
-      http
+      http,
+      () => true
     );
     const value = await service.getFromUrl('url');
     expect(value).to.be.null;

@@ -13,3 +13,4 @@ export * from './linq-helpers';
 export * from './logging';
 export * from './natural-sort-helper';
 export * from './process-queue';
+export * from './services';

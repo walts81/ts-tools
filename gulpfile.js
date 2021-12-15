@@ -4,18 +4,18 @@ const ts = require('gulp-typescript');
 
 const files = ['src/**/*.ts', '!src/**/*.spec.ts'];
 
-gulp.task('default', ['clean'], () => {
+const build = () => {
   const tsProject = ts.createProject('tsconfig.json');
-  return gulp
-    .src(files)
-    .pipe(tsProject())
-    .pipe(gulp.dest('lib'));
-});
+  return gulp.src(files).pipe(tsProject()).pipe(gulp.dest('lib'));
+};
 
-gulp.task('clean', () => {
-  return del('lib/');
-});
+const clean = () => del('lib/');
 
-gulp.task('clean-coverage', () => {
-  return del('coverage/');
-});
+const cleanCoverage = () => del('coverage/');
+
+const defaultTask = gulp.series(clean, build);
+
+exports.build = build;
+exports.clean = clean;
+exports.cleanCoverage = cleanCoverage;
+exports.default = defaultTask;

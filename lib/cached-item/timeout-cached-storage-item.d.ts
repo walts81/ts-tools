@@ -4,7 +4,7 @@ export declare class TimeoutCachedStorageItem extends TimeoutCachedItem<string, 
     protected keyPrefix: string;
     protected storageTimeout: number;
     protected storageTimeoutType: TimeoutType;
-    constructor(storage: Storage, keyPrefix: string, key: string, timeout: number, timeoutType: TimeoutType, storageTimeout: number, storageTimeoutType: TimeoutType, getValueDelegate: (key: string) => Promise<string>);
+    constructor(storage: Storage, keyPrefix: string, key: string, timeout: number, timeoutType: TimeoutType, storageTimeout: number, storageTimeoutType: TimeoutType, getValueDelegate: (key: string) => Promise<string>, canCacheValueDelegate?: (value: string) => boolean);
     protected getValueImplementation(): Promise<string>;
     private setValueInStorage;
     private getValueFromStorage;

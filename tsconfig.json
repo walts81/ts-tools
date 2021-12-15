@@ -8,15 +8,9 @@
     "esModuleInterop": true,
     "declaration": true,
     "strictPropertyInitialization": false,
-    "lib": [
-      "dom",
-      "es2015",
-      "es2015.promise"
-    ]
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "lib": ["dom", "es2015", "es2015.promise"]
   },
-  "exclude": [
-    "node_modules",
-    "src/**/*.spec.ts",
-    "lib/**/*.ts"
-  ]
+  "exclude": ["node_modules", "src/**/*.spec.ts", "lib/**/*.ts"]
 }

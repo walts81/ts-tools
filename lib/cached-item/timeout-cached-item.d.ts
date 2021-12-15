@@ -12,10 +12,11 @@ declare class TimeoutCachedItem<TKey, TValue> {
     key: TKey;
     private timeout;
     private timeoutType;
-    private getValueDelegate;
+    protected getValueDelegate: (key: TKey) => Promise<TValue>;
+    protected canCacheValueDelegate: (value: TValue) => boolean;
     protected lastRenewed: Date;
     protected value: TValue;
-    constructor(key: TKey, timeout: number, timeoutType: TimeoutType, getValueDelegate: (key: TKey) => Promise<TValue>);
+    constructor(key: TKey, timeout: number, timeoutType: TimeoutType, getValueDelegate: (key: TKey) => Promise<TValue>, canCacheValueDelegate?: (value: TValue) => boolean);
     getValue(): Promise<TValue>;
     protected getValueImplementation(): Promise<TValue>;
     protected shouldRenew(lastRenewed: Date, timeout: number, timeoutType: TimeoutType): boolean;

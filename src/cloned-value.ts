@@ -8,14 +8,14 @@ export class ClonedValue<T> {
   private _clonedValue: T;
 
   get value(): T {
-    if (this._clonedValue) {
+    if (!!this._clonedValue) {
       return this._clonedValue;
     }
     const orig = this.originalValue;
     if (orig != null) {
       this.updateValue(orig, false);
     }
-    return (this._clonedValue || this.defaultValue) as T;
+    return this._clonedValue || this.defaultValue;
   }
   set value(val: T) {
     this.updateValue(val, true);
@@ -23,19 +23,20 @@ export class ClonedValue<T> {
 
   get originalValue(): T {
     if (!this._orig) {
-      this._orig = cloneValue(this.getOriginalValueFn());
-      this.logAtLevel(LogLevel.Info, `${this.name}: updated original value`);
+      this.initValue();
     }
     return cloneValue(this._orig);
   }
 
   constructor(
-    private name: string,
-    private getOriginalValueFn: () => T,
-    private defaultValue: any = {},
-    private onCloned: (val: T) => void = () => {},
-    private logger?: Logger
-  ) {}
+    public readonly name: string,
+    private readonly getOriginalValueFn: () => T,
+    private readonly defaultValue: T = null as any,
+    private readonly onCloned: (val: T) => void = () => {},
+    private readonly logger?: Logger
+  ) {
+    this.initValue();
+  }
 
   revert() {
     this.updateValue(this.originalValue, false);
@@ -48,11 +49,12 @@ export class ClonedValue<T> {
     return !areSame;
   }
 
-  sync(): void {
+  sync() {
     this._orig = cloneValue(this._clonedValue);
   }
 
   logDiff(level: LogLevel = LogLevel.Info) {
+    if (!this.canLog()) return;
     if (this.hasChanged()) {
       this.logAtLevel(level, `${this.name}: Has differences`);
       this.logAtLevel(level, `${this.name} - Original:`);
@@ -64,10 +66,14 @@ export class ClonedValue<T> {
     }
   }
 
+  private initValue() {
+    this._orig = cloneValue(this.getOriginalValueFn());
+    this.logAtLevel(LogLevel.Info, `${this.name}: updated original value`);
+  }
+
   protected logAtLevel(level: LogLevel, message: any) {
-    const logger = this.logger as any;
-    if (!!logger && !!logger.logAtLevel) {
-      logger.logAtLevel(level, message);
+    if (this.canLog()) {
+      (this.logger as any).logAtLevel(level, message);
     }
   }
 
@@ -81,5 +87,10 @@ export class ClonedValue<T> {
       this.logAtLevel(LogLevel.Info, `${this.name}: updated externally`);
     }
     this.logDiff();
+  }
+
+  private canLog() {
+    const logger = this.logger as any;
+    return !!logger && !!logger.logAtLevel;
   }
 }
