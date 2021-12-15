@@ -1,6 +1,6 @@
 /* tslint:disable:max-classes-per-file */
 export class LinqException {
-  constructor(public readonly name: string, public readonly message: string) {}
+  constructor(readonly name: string, readonly message: string) {}
 }
 
 export class NoMatchException extends LinqException {
