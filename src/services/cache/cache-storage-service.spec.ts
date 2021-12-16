@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 import 'mocha';
+import sinon from 'sinon';
 import { StorageCacheItem, CacheStorageService } from './cache-storage-service';
 import { MockStorage } from './mock-storage';
+import { Encryption } from './encryption';
 
 describe('CacheStorageService', () => {
   describe('isCacheExpired should', () => {
@@ -33,6 +35,14 @@ describe('CacheStorageService', () => {
     });
   });
   describe('setInCache should', () => {
+    beforeEach(() => {
+      Encryption.prototype.encrypt = sinon.stub().callsFake((x: string) => 'encrypted');
+      Encryption.prototype.decrypt = sinon
+        .stub()
+        .callsFake((x: string) =>
+          x === JSON.stringify('encrypted') ? JSON.stringify('test-data') : JSON.stringify(x)
+        );
+    });
     it('encrypt data when specified', async () => {
       const storage = new MockStorage();
       const service = new CacheStorageService(storage);
@@ -62,6 +72,14 @@ describe('CacheStorageService', () => {
     });
   });
   describe('getFromCache should', () => {
+    beforeEach(() => {
+      Encryption.prototype.encrypt = sinon.stub().callsFake((x: string) => JSON.stringify('encrypted'));
+      Encryption.prototype.decrypt = sinon
+        .stub()
+        .callsFake((x: string) =>
+          x === JSON.stringify('encrypted') ? JSON.stringify('test-data') : JSON.stringify(x)
+        );
+    });
     it('return item from cache', async () => {
       const storage = new MockStorage();
       const service = new CacheStorageService(storage);

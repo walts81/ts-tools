@@ -1,4 +1,5 @@
 import { IStorage } from './storage-service';
+import { Encryption } from './encryption';
 
 export interface StorageCacheItem<T = any> {
   expiresOn: string;
@@ -9,6 +10,8 @@ export interface StorageCacheItem<T = any> {
 const defaultExpiresInMinutes = 480;
 
 export class CacheStorageService {
+  protected encryption = new Encryption();
+
   constructor(protected storage: IStorage, protected getUsernameFn?: () => string) {}
 
   async getFromCache<T>(key: string): Promise<T> {
@@ -46,7 +49,7 @@ export class CacheStorageService {
   }
 
   clear(key: string): Promise<void> {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(resolve => {
       this.storage.removeItem(key);
       const username = this.getUsername();
       const userKey = `${key}${username}`;
@@ -61,18 +64,13 @@ export class CacheStorageService {
     return now > expiresOn;
   }
 
-  private encryptData<T>(data: T): Promise<string> {
-    return new Promise<string>((resolve) => {
-      const result = btoa(JSON.stringify(data));
-      resolve(result);
-    });
+  private async encryptData<T>(data: T): Promise<string> {
+    return await this.encryption.encryptAsync(JSON.stringify(data));
   }
 
-  private decryptData<T>(data: string): Promise<T> {
-    return new Promise<T>((resolve) => {
-      const result = JSON.parse(atob(data));
-      resolve(result);
-    });
+  private async decryptData<T>(data: string): Promise<T> {
+    const decrypted = await this.encryption.decryptAsync(data);
+    return JSON.parse(decrypted);
   }
 
   private getUsername() {
