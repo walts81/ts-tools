@@ -1,13 +1,13 @@
 language: node_js
 node_js:
-  - "12"
+  - '12'
 install:
   - npm install
 jobs:
   include:
     - stage: Build and test
       script:
-        - npm test
+        - npm test:cov
     - stage: npm release
       script: npm run build
       deploy:

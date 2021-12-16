@@ -7,7 +7,7 @@
   "scripts": {
     "build": "gulp",
     "test": "TS_NODE_FILES=true mocha",
-    "test:cov": "gulp cleanCoverage && TS_NODE_FILES=true nyc mocha",
+    "test:cov": "gulp cleanCoverage && TS_NODE_FILES=true nyc report --reporter=html --reporter=text-summary --reporter=text-lcov mocha | coveralls -v",
     "lint": "eslint src/**/*.ts --no-ignore",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
@@ -32,6 +32,7 @@
     "@typescript-eslint/eslint-plugin": "^5.7.0",
     "@typescript-eslint/parser": "^5.7.0",
     "chai": "^4.1.2",
+    "coveralls": "^3.1.1",
     "del": "^3.0.0",
     "eslint": "^8.4.1",
     "eslint-config-prettier": "^8.3.0",
