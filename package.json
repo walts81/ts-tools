@@ -7,7 +7,7 @@
   "scripts": {
     "build": "gulp",
     "test": "TS_NODE_FILES=true mocha",
-    "test:cov": "gulp cleanCoverage && TS_NODE_FILES=true nyc report --reporter=html --reporter=text-summary --reporter=text-lcov mocha | coveralls -v",
+    "test:cov": "gulp cleanCoverage && TS_NODE_FILES=true nyc report --reporter=html --reporter=text-summary --reporter=text-lcov mocha | coveralls",
     "lint": "eslint src/**/*.ts --no-ignore",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
@@ -24,6 +24,10 @@
   ],
   "author": "Josh Walters",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/walts81/ts-tools.git"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.5",
     "@types/mocha": "^5.2.5",
