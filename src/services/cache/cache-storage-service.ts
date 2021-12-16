@@ -55,7 +55,7 @@ export class CacheStorageService {
     });
   }
 
-  public isCacheExpired(cache: StorageCacheItem): boolean {
+  isCacheExpired(cache: StorageCacheItem): boolean {
     const now = new Date();
     const expiresOn = new Date(cache.expiresOn);
     return now > expiresOn;

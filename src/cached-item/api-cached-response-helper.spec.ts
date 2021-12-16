@@ -45,6 +45,29 @@ describe('ApiCachedResponseHelper', () => {
     expect(httpFake.callCount).to.equal(1);
   });
 
+  it('should hit API for subsequent calls when not allowed to cache', async () => {
+    const httpFake = sinon.fake.returns(Promise.resolve({ status: 200, data: 'from-api' }));
+    const http: any = { get: httpFake };
+    const storage: any = { getItem: sinon.fake(), setItem: sinon.fake() };
+    const service = new ApiCachedResponseHelper(
+      storage,
+      'prefix',
+      1,
+      TimeoutType.InMinutes,
+      2,
+      TimeoutType.InMinutes,
+      http,
+      (x) => false
+    );
+    const val1 = await service.getFromUrl('url');
+    expect(val1.data).to.eq('from-api');
+    assert(httpFake.calledOnce, 'API was not called exactly once');
+
+    const val2 = await service.getFromUrl('url');
+    expect(val2.data).to.eq('from-api');
+    expect(httpFake.callCount).to.equal(2);
+  });
+
   it('should return null on API error', async () => {
     const httpFake = sinon.fake.returns(Promise.reject('API error'));
     const http: any = { get: httpFake };
