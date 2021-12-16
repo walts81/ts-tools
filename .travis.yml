@@ -7,7 +7,7 @@ jobs:
   include:
     - stage: Build and test
       script:
-        - npm test:cov
+        - npm run test:cov
     - stage: npm release
       script: npm run build
       deploy:
