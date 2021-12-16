@@ -6,9 +6,8 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "gulp",
-    "test": "TS_NODE_FILES=true mocha",
-    "test:cov": "gulp cleanCoverage && TS_NODE_FILES=true nyc report --reporter=lcov mocha && cat ./coverage/lcov.info | coveralls",
-    "test:cov-local": "gulp cleanCoverage && TS_NODE_FILES=true nyc report --reporter=html --reporter=text-summary mocha",
+    "test": "gulp cleanCoverage && TS_NODE_FILES=true nyc --reporter=html --reporter=text --reporter=text-summary mocha",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
     "lint": "eslint src/**/*.ts --no-ignore",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
