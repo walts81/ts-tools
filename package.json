@@ -31,6 +31,9 @@
     "type": "git",
     "url": "https://github.com/walts81/ts-tools.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/chai": "^4.1.5",
     "@types/mocha": "^5.2.5",
