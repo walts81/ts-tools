@@ -22,5 +22,5 @@ TS-Tools is a typescript library with various code helpers and implementations f
 Install ts-tools with npm
 
 ```sh
-$ npm install ts-tools --save
+$ npm install @walts81/ts-tools --save
 ```
