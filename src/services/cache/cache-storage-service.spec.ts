@@ -4,6 +4,7 @@ import sinon from 'sinon';
 import { StorageCacheItem, CacheStorageService } from './cache-storage-service';
 import { MockStorage } from './mock-storage';
 import { Encryption } from './encryption';
+import * as EncryptionHelpers from './encryption-wrappers';
 
 describe('CacheStorageService', () => {
   describe('isCacheExpired should', () => {
@@ -35,13 +36,17 @@ describe('CacheStorageService', () => {
     });
   });
   describe('setInCache should', () => {
+    let encryptStub: sinon.SinonStub;
+    let decryptStub: sinon.SinonStub;
     beforeEach(() => {
-      Encryption.prototype.encrypt = sinon.stub().callsFake((x: string) => 'encrypted');
-      Encryption.prototype.decrypt = sinon
-        .stub()
-        .callsFake((x: string) =>
-          x === JSON.stringify('encrypted') ? JSON.stringify('test-data') : JSON.stringify(x)
-        );
+      encryptStub = sinon.stub(EncryptionHelpers, 'encrypt').returns('encrypted');
+      decryptStub = sinon
+        .stub(EncryptionHelpers, 'decrypt')
+        .callsFake(x => (x === 'encrypted' ? JSON.stringify('test-data') : JSON.stringify(x)));
+    });
+    afterEach(() => {
+      encryptStub.restore();
+      decryptStub.restore();
     });
     it('encrypt data when specified', async () => {
       const storage = new MockStorage();
@@ -72,13 +77,17 @@ describe('CacheStorageService', () => {
     });
   });
   describe('getFromCache should', () => {
+    let encryptStub: sinon.SinonStub;
+    let decryptStub: sinon.SinonStub;
     beforeEach(() => {
-      Encryption.prototype.encrypt = sinon.stub().callsFake((x: string) => JSON.stringify('encrypted'));
-      Encryption.prototype.decrypt = sinon
-        .stub()
-        .callsFake((x: string) =>
-          x === JSON.stringify('encrypted') ? JSON.stringify('test-data') : JSON.stringify(x)
-        );
+      encryptStub = sinon.stub(EncryptionHelpers, 'encrypt').returns('encrypted');
+      decryptStub = sinon
+        .stub(EncryptionHelpers, 'decrypt')
+        .callsFake(x => (x === 'encrypted' ? JSON.stringify('test-data') : JSON.stringify(x)));
+    });
+    afterEach(() => {
+      encryptStub.restore();
+      decryptStub.restore();
     });
     it('return item from cache', async () => {
       const storage = new MockStorage();

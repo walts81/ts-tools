@@ -1,9 +1,9 @@
 export class EditableValue {
   // for binding purposes only
-  value: string = '';
+  value = '';
 
   // for ability to cancel an edit (revert)
-  private valueTemp: string = '';
+  private valueTemp = '';
 
   private defaultValue: any;
 

@@ -1,12 +1,13 @@
 import moment from 'moment';
+import * as DateHelpers from './date-helpers';
 
-enum PercentOperation {
+export enum PercentOperation {
   NoOp = 0,
   DivideBy100 = 1,
   MultiplyBy100 = 2,
 }
 
-const formatCurrency = (value: number | string, cents = false, locale = 'en-US', currency = 'USD') => {
+export const formatCurrency = (value: number | string, cents = false, locale = 'en-US', currency = 'USD') => {
   const val = !!value ? Number(value) : 0;
   const options = {
     style: 'currency',
@@ -17,41 +18,15 @@ const formatCurrency = (value: number | string, cents = false, locale = 'en-US',
   return val.toLocaleString(locale, options);
 };
 
-const isDate = (value: any): boolean => {
-  if (!!value) {
-    return toString.call(value) === '[object Date]';
-  }
+export const formatDate = (date: string | Date, format = 'MM/DD/YYYY') => {
+  if (!date) return '';
 
-  return false;
+  if (!DateHelpers.isValidDate(date)) return '';
+
+  return moment(date).format(format);
 };
 
-const isValidDate = (date: any): boolean => {
-  const invalidDt = 'Invalid Date';
-
-  if (isDate(date)) {
-    return date !== invalidDt;
-  }
-
-  if (!!date && typeof date === 'string') {
-    const dt = (new Date(date) as any);
-    return !!dt && dt.toString() !== invalidDt;
-  }
-
-  return false;
-};
-
-const formatDate = (date: string | Date, format = 'MM/DD/YYYY') => {
-  if (!date) {
-    return '';
-  } else if (!isValidDate(date)) {
-    return '';
-  }
-
-  const dt = moment(date);
-  return dt.format(format);
-};
-
-const formatPercent = (
+export const formatPercent = (
   value: number | string,
   decimals = 2,
   operation = PercentOperation.NoOp,
@@ -69,5 +44,3 @@ const formatPercent = (
   }
   return formatted;
 };
-
-export { PercentOperation, formatCurrency, formatPercent, formatDate, isDate, isValidDate };

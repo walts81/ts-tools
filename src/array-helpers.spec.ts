@@ -19,5 +19,28 @@ describe('ArrayHelpers', () => {
         expect(orig[i]).to.equal(test[i]);
       }
     });
+
+    it('should create deep copy by default', () => {
+      const orig = [
+        { id: 1, val: '1' },
+        { id: 2, val: '2' },
+        { id: 3, val: '3' },
+      ];
+      const test = orig.clone();
+      expect(test).not.to.eq(orig);
+      test.forEach((v, i) => expect(v).not.to.eq(orig[i]));
+    });
+
+    it('should create shallow copy when specified', () => {
+      const orig = [
+        { id: 1, val: '1' },
+        { id: 2, val: '2' },
+        { id: 3, val: '3' },
+      ];
+      const test = orig.clone(true);
+      expect(test).not.to.eq(orig);
+      expect(test).to.eql(orig);
+      test.forEach((v, i) => expect(v).to.eq(orig[i]));
+    });
   });
 });

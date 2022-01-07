@@ -1,25 +1,9 @@
 {
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx"
-  ],
-  "extension": [
-    ".ts",
-    ".tsx"
-  ],
-  "exclude": [
-    "**/index.ts",
-    "**/*.d.ts",
-    "**/*.spec.ts",
-    "**/*.js"
-  ],
-  "require": [
-    "ts-node/register"
-  ],
-  "reporter": [
-    "text",
-    "html"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "extension": [".ts", ".tsx"],
+  "exclude": ["**/index.ts", "**/*.d.ts", "**/*.spec.ts", "**/*.js", "src/services/cache/encryption-wrappers.ts"],
+  "require": ["ts-node/register"],
+  "reporter": ["html", "text", "text-summary"],
   "sourceMap": true,
   "instrument": true,
   "cache": false,

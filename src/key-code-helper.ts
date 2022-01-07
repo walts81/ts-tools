@@ -1,30 +1,25 @@
-const ENTER_KEY = 13;
-const ESC_KEY = 27;
+export const ENTER_KEY = 13;
+export const ESC_KEY = 27;
 
-class KeyCodeHelper {
-  static isEnterKey($event: any): boolean {
-    return KeyCodeHelper.isKeyCode($event, ENTER_KEY);
-  }
-
-  static isEscKey($event: any): boolean {
-    return KeyCodeHelper.isKeyCode($event, ESC_KEY);
-  }
-
-  static isKeyCode($event: any, code: number): boolean {
-    const keyCode = KeyCodeHelper.getKeyCode($event);
-    return keyCode === code;
-  }
-
-  static getKeyCode($event: any): number {
-    let keyCode = $event.which;
+export const getKeyCode = ($event: any): number => {
+  let keyCode = $event.which;
+  if (!keyCode && keyCode !== 0) {
+    keyCode = $event.keyCode;
     if (!keyCode && keyCode !== 0) {
-      keyCode = $event.keyCode;
-      if (!keyCode && keyCode !== 0) {
-        keyCode = $event.charCode;
-      }
+      keyCode = $event.charCode;
     }
-    return keyCode;
   }
-}
+  return keyCode;
+};
 
-export { ENTER_KEY, ESC_KEY, KeyCodeHelper };
+export const isKeyCode = ($event: any, code: number): boolean => {
+  return code === getKeyCode($event);
+};
+
+export const isEnterKey = ($event: any): boolean => {
+  return isKeyCode($event, ENTER_KEY);
+};
+
+export const isEscKey = ($event: any): boolean => {
+  return isKeyCode($event, ESC_KEY);
+};

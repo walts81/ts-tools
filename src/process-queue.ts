@@ -45,13 +45,13 @@ export abstract class ProcessQueue<T, TResult> {
       proc.isProcessing = true;
       this.performAction(payload)
         .then(r => {
-          const list = proc.deferredList.clone(false);
+          const list = proc.deferredList.clone(true);
           proc.isProcessing = false;
           proc.deferredList = [];
           list.forEach(d => d.resolve(r));
         })
         .catch(e => {
-          const list = proc.deferredList.clone(false);
+          const list = proc.deferredList.clone(true);
           proc.isProcessing = false;
           proc.deferredList = [];
           list.forEach(d => d.reject(e));

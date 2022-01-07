@@ -9,11 +9,13 @@ module.exports = {
       {
         accessibility: 'no-public',
         overrides: {
-          constructors: 'off',
+          parameterProperties: 'off',
         },
       },
     ],
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-this-alias': 'off',
     'array-type': 'off',
     'arrow-parens': 'off',
     'interface-name': 'off',

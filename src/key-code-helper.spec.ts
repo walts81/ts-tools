@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import 'mocha';
-import { KeyCodeHelper } from './key-code-helper';
+import * as KeyCodeHelper from './key-code-helper';
 
 describe('KeyCodeHelper', () => {
   describe('isKeyCode', () => {

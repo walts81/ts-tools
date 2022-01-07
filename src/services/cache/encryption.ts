@@ -1,10 +1,12 @@
+import * as EncryptionHelper from './encryption-wrappers';
+
 export class Encryption {
   encrypt(data: string) {
-    return btoa(data);
+    return EncryptionHelper.encrypt(data);
   }
 
   decrypt(data: string) {
-    return atob(data);
+    return EncryptionHelper.decrypt(data);
   }
 
   encryptAsync(data: string) {
