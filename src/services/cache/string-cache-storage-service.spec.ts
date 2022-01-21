@@ -1,12 +1,13 @@
 import { expect } from 'chai';
 import 'mocha';
 import sinon from 'sinon';
-import { StorageCacheItem, CacheStorageService } from './cache-storage-service';
-import { MockStorage } from './mock-storage';
-import { Encryption } from './encryption';
+import moment from 'moment';
+import { StringCacheStorageService } from './string-cache-storage-service';
+import { StorageCacheItem } from './models';
+import { MockStringStorage } from './mock-storage';
 import * as EncryptionHelpers from './encryption-wrappers';
 
-describe('CacheStorageService', () => {
+describe('StringCacheStorageService', () => {
   describe('isCacheExpired should', () => {
     it('return true when now is greater than expiresOn', () => {
       const expiresOnDt = new Date();
@@ -17,7 +18,7 @@ describe('CacheStorageService', () => {
         encrypted: false,
         expiresOn,
       };
-      const service = new CacheStorageService(new MockStorage());
+      const service = new StringCacheStorageService(new MockStringStorage());
       const result = service.isCacheExpired(item);
       expect(result).to.be.true;
     });
@@ -30,7 +31,7 @@ describe('CacheStorageService', () => {
         encrypted: false,
         expiresOn,
       };
-      const service = new CacheStorageService(new MockStorage());
+      const service = new StringCacheStorageService(new MockStringStorage());
       const result = service.isCacheExpired(item);
       expect(result).to.be.false;
     });
@@ -49,8 +50,8 @@ describe('CacheStorageService', () => {
       decryptStub.restore();
     });
     it('encrypt data when specified', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage);
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
       const key = 'test';
       await service.setInCache(key, 'test-data', false, true);
       const cachedItem: StorageCacheItem = JSON.parse(storage.getItem(key));
@@ -58,22 +59,39 @@ describe('CacheStorageService', () => {
       expect(cachedItem.data).to.not.eq('test-data');
     });
     it('not encrypt data when not specified', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage);
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
       const key = 'test';
       await service.setInCache(key, 'test-data', false, false);
       const cachedItem: StorageCacheItem = JSON.parse(storage.getItem(key));
       expect(cachedItem.encrypted).to.be.false;
     });
     it('add username to key when specified', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage, () => 'test-user');
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage, () => 'test-user');
       const key = 'test';
       await service.setInCache(key, 'test-data', true, false, 1);
       const cachedItem: StorageCacheItem = JSON.parse(storage.getItem(key + 'test-user'));
       expect(cachedItem).to.not.be.null;
       expect(cachedItem).to.not.be.undefined;
       expect(cachedItem.data).to.eq('test-data');
+    });
+    it('set expires from specified minutes', async () => {
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
+      const key = 'test';
+      const minutes = 5;
+      await service.setInCache(key, 'test-data', false, false, minutes);
+      const cachedItem: StorageCacheItem = JSON.parse(storage.getItem(key));
+      expect(moment(cachedItem.expiresOn).diff(moment(), 'minutes')).to.eq(minutes);
+    });
+    it('sets noexpire when no minutes specified', async () => {
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
+      const key = 'test';
+      await service.setInCache(key, 'test-data', false, false);
+      const cachedItem: StorageCacheItem = JSON.parse(storage.getItem(key));
+      expect(cachedItem.expiresOn).to.eq('noexpire');
     });
   });
   describe('getFromCache should', () => {
@@ -90,32 +108,32 @@ describe('CacheStorageService', () => {
       decryptStub.restore();
     });
     it('return item from cache', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage);
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
       const key = 'test-1';
       await service.setInCache(key, 'test-data');
       const data = await service.getFromCache(key);
       expect(data).to.eq('test-data');
     });
     it('return item from cache by username', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage, () => 'test-user');
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage, () => 'test-user');
       const key = 'test-1';
       await service.setInCache(key, 'test-data', true);
       const data = await service.getFromCache(key);
       expect(data).to.eq('test-data');
     });
     it('return item from cache when not found under username', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage, () => 'test-user');
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage, () => 'test-user');
       const key = 'test-1';
       await service.setInCache(key, 'test-data', false);
       const data = await service.getFromCache(key);
       expect(data).to.eq('test-data');
     });
     it('return data decrypted', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage);
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
       const key = 'test-1';
       await service.setInCache(key, 'test-data', false, true);
       const cachedItem: StorageCacheItem = JSON.parse(storage.getItem(key));
@@ -124,16 +142,16 @@ describe('CacheStorageService', () => {
       expect(data).to.eq('test-data');
     });
     it('return null when not found', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage, () => 'test-user');
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage, () => 'test-user');
       const key = 'test-1';
       await service.setInCache(key, 'test-data', false);
       const data = await service.getFromCache(key + '1');
       expect(data).to.be.null;
     });
     it('return null when expired', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage, () => '');
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage, () => '');
       const expiresOnDt = new Date();
       expiresOnDt.setMinutes(expiresOnDt.getMinutes() - 1);
       const expiresOn = expiresOnDt.toISOString();
@@ -150,8 +168,8 @@ describe('CacheStorageService', () => {
   });
   describe('clear should', () => {
     it('remove item from cache', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage);
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage);
       const key = 'test-1';
       await service.setInCache(key, 'test-data1');
 
@@ -162,8 +180,8 @@ describe('CacheStorageService', () => {
       expect(keys.length).to.eq(0);
     });
     it('remove item by username-key and regular key', async () => {
-      const storage = new MockStorage();
-      const service = new CacheStorageService(storage, () => 'test-user');
+      const storage = new MockStringStorage();
+      const service = new StringCacheStorageService(storage, () => 'test-user');
       const key = 'test-1';
       await service.setInCache(key, 'test-data1');
       await service.setInCache(key, 'test-data2', true);
